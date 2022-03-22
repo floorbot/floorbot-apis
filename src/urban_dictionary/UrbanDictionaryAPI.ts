@@ -41,13 +41,13 @@ export class UrbanDictionaryAPI {
      * @param params The API params to use
      * @returns The raw API response
      */
-    public async request(endpoint: string, params?: [string, string | number][]): Promise<any> {
+    public async request(endpoint: string, params?: [string, string | number][], force?: boolean): Promise<any> {
         const paramString = (params || []).map((param) => `${param[0]}=${param[1]}`).join('&');
         const url = `http://api.urbandictionary.com/v0/${endpoint}?${paramString}`;
-        const cached = await this.redis.get(url);
-        if (cached) return JSON.parse(cached);
+        const cached = await this.redis.get(`${this.id}${url}`);
+        if (!force && cached) return JSON.parse(cached);
         const options = { method: 'GET', headers: new Headers() };
-        const res = fetch(`${this.id}${url}`, options).then(res => res.json());
+        const res = await fetch(url, options).then(res => res.json());
         await this.redis.set(`${this.id}${url}`, JSON.stringify(res), 'PX', this.ttl);
         return res;
     }
@@ -57,7 +57,7 @@ export class UrbanDictionaryAPI {
      * @returns An array or definitions
      */
     public async random(): Promise<UrbanDictionaryAPIData[]> {
-        return this.request('random').then(res => res.list ?? []);
+        return this.request('random', [], true).then(res => res.list ?? []);
     }
 
     /**
