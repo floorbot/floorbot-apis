@@ -1,0 +1,32 @@
+{
+    "name": "floorbot-apis",
+    "version": "1.0.0",
+    "description": "All the APIs that floorbot uses",
+    "main": "dist/index.js",
+    "types": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "prepare": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/floorbot/floorbot-apis.git"
+    },
+    "keywords": [
+        "api"
+    ],
+    "author": "Arcadeena",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/floorbot/floorbot-apis/issues"
+    },
+    "homepage": "https://github.com/floorbot/floorbot-apis#readme",
+    "devDependencies": {
+        "typescript": "^4.4.4"
+    },
+    "dependencies": {
+        "urban-dictionary": "github:floorbot/floorbot-apis#urban-dictionary"
+    }
+}
